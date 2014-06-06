@@ -1,0 +1,4 @@
+#!/bin/sh
+
+ghc -O2 Bench.hs
+./Bench -o bench.html
