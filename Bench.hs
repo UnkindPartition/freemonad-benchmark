@@ -3,6 +3,7 @@ module Main (main) where
 
 import Base
 import qualified Free
+import qualified Church
 import Control.Monad
 
 import Criterion (bench, whnf)
@@ -20,4 +21,5 @@ main :: IO ()
 main = defaultMain
   [ bench "free" $ whnf (flip Free.run 0 . computation) 20
   , bench "free" $ whnf (flip Free.runLazily 0 . computation) 20
+  , bench "free" $ whnf (flip Church.run 0 . computation) 20
   ]
