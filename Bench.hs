@@ -66,5 +66,5 @@ benchmarks computation mtlComputation n =
 main :: IO ()
 main = defaultMain
   [ bgroup "Linear" $ benchmarks computation mtlComputation n
-  , bgroup "Tree" $ benchmarks computation2 mtlComputation2 n2
+  -- , bgroup "Tree" $ benchmarks computation2 mtlComputation2 n2
   ]
