@@ -1,4 +1,4 @@
-{-# LANGUAGE FlexibleContexts #-}
+{-# LANGUAGE FlexibleContexts, RankNTypes #-}
 module Main (main) where
 
 import Base
@@ -9,7 +9,7 @@ import qualified NoRemorse
 import Control.Monad
 import qualified Control.Monad.State.Strict as MTL
 
-import Criterion (bench, nf)
+import Criterion (bench, nf, bgroup, Benchmark)
 import Criterion.Main (defaultMain)
 
 computation
@@ -25,14 +25,46 @@ mtlComputation n = forM_ [1..n] $ \_ -> do
   s <- MTL.get
   MTL.put $! s + 1
 
-n = 20
+computation2
+  :: (Monad m, MonadFree F m)
+  => Int
+  -> m ()
+computation2 n =
+  if n == 0
+    then return ()
+    else do
+      s <- get
+      put $! s + 1
+      computation2 (n-1)
 
-main :: IO ()
-main = defaultMain
+mtlComputation2 :: Int -> MTL.State Int ()
+mtlComputation2 n =
+  if n == 0
+    then return ()
+    else do
+      s <- MTL.get
+      MTL.put $! s + 1
+      mtlComputation2 (n-1)
+
+n = 20
+n2 = 5
+
+benchmarks
+  :: (forall m . (Monad m, MonadFree F m) => Int -> m ())
+  -> (Int -> MTL.State Int ())
+  -> Int
+  -> [Benchmark]
+benchmarks computation mtlComputation n =
   [ bench "Free" $ nf (flip Free.run 0 . computation) n
   , bench "Free/lazy" $ nf (flip Free.runLazily 0 . computation) n
   , bench "Chruch" $ nf (flip Church.run 0 . computation) n
   , bench "Codensity" $ nf (flip Codensity.run 0 . computation) n
   , bench "NoRemorse" $ nf (flip NoRemorse.run 0 . computation) n
   , bench "MTL" $ nf (flip MTL.runState 0 . mtlComputation) n
+  ]
+
+main :: IO ()
+main = defaultMain
+  [ bgroup "Linear" $ benchmarks computation mtlComputation n
+  , bgroup "Tree" $ benchmarks computation2 mtlComputation2 n2
   ]
