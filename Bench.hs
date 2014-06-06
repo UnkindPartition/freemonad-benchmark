@@ -4,6 +4,7 @@ module Main (main) where
 import Base
 import qualified Free
 import qualified Church
+import qualified Codensity
 import Control.Monad
 
 import Criterion (bench, whnf)
@@ -19,7 +20,8 @@ computation n = forM_ [1..n] $ \_ -> do
 
 main :: IO ()
 main = defaultMain
-  [ bench "free" $ whnf (flip Free.run 0 . computation) 20
-  , bench "free" $ whnf (flip Free.runLazily 0 . computation) 20
-  , bench "free" $ whnf (flip Church.run 0 . computation) 20
+  [ bench "Free" $ whnf (flip Free.run 0 . computation) 20
+  , bench "Free/lazy" $ whnf (flip Free.runLazily 0 . computation) 20
+  , bench "Chruch" $ whnf (flip Church.run 0 . computation) 20
+  , bench "Codensity" $ whnf (flip Codensity.run 0 . computation) 20
   ]
