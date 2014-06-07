@@ -2,6 +2,7 @@
 module Main (main) where
 
 import Base
+import Computation
 import qualified Free
 import qualified Church
 import qualified Codensity
@@ -12,39 +13,6 @@ import qualified Control.Monad.State.Strict as MTL
 import Criterion (bench, nf, bgroup, Benchmark)
 import Criterion.Main (defaultMain)
 
-computation
-  :: (Monad m, MonadFree F m)
-  => Int
-  -> m ()
-computation n = forM_ [1..n] $ \_ -> do
-  s <- get
-  put $! s + 1
-
-mtlComputation :: Int -> MTL.State Int ()
-mtlComputation n = forM_ [1..n] $ \_ -> do
-  s <- MTL.get
-  MTL.put $! s + 1
-
-computation2
-  :: (Monad m, MonadFree F m)
-  => Int
-  -> m ()
-computation2 n =
-  if n == 0
-    then return ()
-    else do
-      s <- get
-      put $! s + 1
-      computation2 (n-1)
-
-mtlComputation2 :: Int -> MTL.State Int ()
-mtlComputation2 n =
-  if n == 0
-    then return ()
-    else do
-      s <- MTL.get
-      MTL.put $! s + 1
-      mtlComputation2 (n-1)
 
 n = 20
 n2 = 5
@@ -66,5 +34,5 @@ benchmarks computation mtlComputation n =
 main :: IO ()
 main = defaultMain
   [ bgroup "Linear" $ benchmarks computation mtlComputation n
-  -- , bgroup "Tree" $ benchmarks computation2 mtlComputation2 n2
+  , bgroup "Tree" $ benchmarks computation2 mtlComputation2 n2
   ]
