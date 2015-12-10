@@ -29,6 +29,7 @@ computation2 n =
       s <- get
       put $! s + 1
       computation2 (n-1)
+      computation2 (n-1)
 
 mtlComputation2 :: Int -> MTL.State Int ()
 mtlComputation2 n =
@@ -37,4 +38,5 @@ mtlComputation2 n =
     else do
       s <- MTL.get
       MTL.put $! s + 1
+      mtlComputation2 (n-1)
       mtlComputation2 (n-1)

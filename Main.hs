@@ -14,8 +14,8 @@ import Criterion (bench, nf, bgroup, Benchmark)
 import Criterion.Main (defaultMain)
 
 
-n = 20
-n2 = 5
+n = 2^n2
+n2 = 10
 
 benchmarks
   :: (forall m . (Monad m, MonadFree F m) => Int -> m ())
