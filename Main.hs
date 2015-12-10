@@ -14,8 +14,7 @@ import Criterion (bench, nf, bgroup, Benchmark)
 import Criterion.Main (defaultMain)
 
 
-n = 2^n2
-n2 = 10
+n = 50
 
 benchmarks
   :: (forall m . (Monad m, MonadFree F m) => Int -> m ())
@@ -33,6 +32,6 @@ benchmarks computation mtlComputation n =
 
 main :: IO ()
 main = defaultMain
-  [ bgroup "Linear" $ benchmarks computation mtlComputation n
-  , bgroup "Tree" $ benchmarks computation2 mtlComputation2 n2
+  [ bgroup "Right-assoc" $ benchmarks computation mtlComputation n
+  , bgroup "Left-assoc" $ benchmarks computation2 mtlComputation2 n
   ]
