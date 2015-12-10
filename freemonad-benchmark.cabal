@@ -20,4 +20,23 @@ executable freemonad-benchmark
   main-is:             Main.hs
   build-depends:       base, criterion, mtl
   default-language:    Haskell2010
+  default-extensions:
+    MultiParamTypeClasses
+    FlexibleInstances
+    FunctionalDependencies
   ghc-options: -O2
+  other-modules:
+    Base
+    Church
+    Codensity
+    Computation
+    Data.CTQueue
+    Data.FastTCQueue
+    Data.Interface.Sequence
+    Data.Interface.TSequence
+    Data.RTQueue
+    Data.TConsList
+    Data.TSnocList
+    Free
+    Freer
+    NoRemorse
