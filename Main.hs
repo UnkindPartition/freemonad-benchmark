@@ -25,10 +25,11 @@ benchmarks
 benchmarks computation mtlComputation n =
   [ bench "Free" $ nf (flip Free.run 0 . computation) n
   , bench "Free/lazy" $ nf (flip Free.runLazily 0 . computation) n
-  , bench "Chruch" $ nf (flip Church.run 0 . computation) n
+  , bench "Church" $ nf (flip Church.run 0 . computation) n
   , bench "Codensity" $ nf (flip Codensity.run 0 . computation) n
   , bench "NoRemorse" $ nf (flip NoRemorse.run 0 . computation) n
   , bench "Freer" $ nf (flip Freer.run 0 . computation) n
+  , bench "Freer S" $ nf (flip Freer.run' 0 . Freer.computation') n
   , bench "MTL" $ nf (flip MTL.runState 0 . mtlComputation) n
   ]
 
