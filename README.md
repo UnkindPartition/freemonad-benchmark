@@ -53,7 +53,7 @@ benchmark shows), any effect system based on it won't be fast.
 6. **Freer**
 
     The Freer monad from [Freer Monads, More Extensible
-    Effects](okmij.org/ftp/Haskell/extensible/more.pdft), aka the
+    Effects](http://okmij.org/ftp/Haskell/extensible/more.pdf), aka the
     [operational]() monad.
 
 ## Workloads
