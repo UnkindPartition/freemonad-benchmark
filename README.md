@@ -1,3 +1,8 @@
+This repository exists for archival purposes only. I am not interested in
+maintaining it. **Please do not open pull requests.**
+
+* * *
+
 A benchmark comparing the performance of different free monad implementations.
 
 The benchmark simulates the state monad using various flavors of free monads,
